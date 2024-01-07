@@ -10,7 +10,7 @@ interface IAuthor {
 const Author: FC<IAuthor> = ({ username, date }) => {
   return (
     <View className="flex flex-row items-center">
-      <UserAvatar size={45} borderRadius="full" />
+      <UserAvatar size={45} borderRadius="full" ring />
       <View className="ml-[10px]">
         <Text className="text-[15px] text-white font-[Montserrat-SemiBold]">
           {typeof username === "string" && username}
