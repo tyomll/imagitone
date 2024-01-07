@@ -22,7 +22,6 @@ const imaginations = [
 const ImaginationsList = () => {
   return (
     <View className="flex flex-col justify-center w-[90vw] ">
-      <ScrollView>
         {imaginations.map((imagination, i) => (
           <Imagination
             key={i}
@@ -32,7 +31,6 @@ const ImaginationsList = () => {
             artistName={imagination.artistName}
           />
         ))}
-      </ScrollView>
     </View>
   );
 };

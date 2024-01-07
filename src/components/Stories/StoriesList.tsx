@@ -4,7 +4,11 @@ import Story from "./Story";
 
 const StoriesList = () => {
   return (
-    <ScrollView horizontal={true}>
+    <ScrollView
+      horizontal={true}
+      showsVerticalScrollIndicator={false}
+      showsHorizontalScrollIndicator={false}
+    >
       <View
         className="flex flex-row w-full justify-center items-center"
         style={{ gap: 13 }}
