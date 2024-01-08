@@ -1,7 +1,8 @@
-import { SafeAreaView, ScrollView, Text } from "react-native";
+import { SafeAreaView, ScrollView } from "react-native";
 import React from "react";
 import ImaginationsList from "../../components/ImaginationsList/ImaginationsList";
 import Stories from "../../components/Stories";
+import Header from "../../components/Header/Header";
 
 const HomeScreen = () => {
   return (
@@ -9,8 +10,9 @@ const HomeScreen = () => {
       <ScrollView
         showsVerticalScrollIndicator={false}
         showsHorizontalScrollIndicator={false}
-        className="flex flex-col "
+        className="flex flex-col w-full"
       >
+        <Header />
         <Stories />
         <ImaginationsList />
       </ScrollView>
