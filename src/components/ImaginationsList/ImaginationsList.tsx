@@ -21,16 +21,16 @@ const imaginations = [
 
 const ImaginationsList = () => {
   return (
-    <View className="flex flex-col justify-center w-[90vw] ">
-        {imaginations.map((imagination, i) => (
-          <Imagination
-            key={i}
-            author={imagination.author}
-            imageURL={imagination.imageURL}
-            musicName={imagination.musicName}
-            artistName={imagination.artistName}
-          />
-        ))}
+    <View className="flex flex-col justify-center w-full ">
+      {imaginations.map((imagination, i) => (
+        <Imagination
+          key={i}
+          author={imagination.author}
+          imageURL={imagination.imageURL}
+          musicName={imagination.musicName}
+          artistName={imagination.artistName}
+        />
+      ))}
     </View>
   );
 };

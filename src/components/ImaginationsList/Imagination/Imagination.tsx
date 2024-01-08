@@ -17,12 +17,14 @@ const Imagination: FC<IImagination> = ({
   artistName,
 }) => {
   return (
-    <View className={`w-full h-[60vh] mt-[20px] rounded-[13px]`}>
+    <View
+      className={`w-full h-[60vh] mt-[20px] bg-[#e7e4e464] p-4 rounded-[30px]`}
+    >
       <ImageBackground
         source={{ uri: imageURL }}
         resizeMode="cover"
         className="flex-1 justify-between p-5"
-        imageStyle={{ borderRadius: 13 }}
+        imageStyle={{ borderRadius: 20 }}
       >
         <Author username={author} date="Jan 2024" />
         <View>

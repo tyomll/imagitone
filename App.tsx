@@ -1,8 +1,8 @@
 import Navigation from "./src/navigation/Navigation";
-import * as Font from "expo-font";
+import { useFonts } from "expo-font";
 
 export default function App() {
-  const [fontsLoaded] = Font.useFonts({
+  const [fontsLoaded] = useFonts({
     "Montserrat-Regular": require("./assets/fonts/Montserrat-Regular.ttf"),
     "Montserrat-Bold": require("./assets/fonts/Montserrat-Bold.ttf"),
     "Montserrat-Light": require("./assets/fonts/Montserrat-Light.ttf"),

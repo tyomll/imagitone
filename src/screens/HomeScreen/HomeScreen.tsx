@@ -5,10 +5,11 @@ import Stories from "../../components/Stories";
 
 const HomeScreen = () => {
   return (
-    <SafeAreaView className="flex flex-col items-center w-full h-full bg-[#1B1926] p-5">
+    <SafeAreaView className="flex flex-col items-center w-full h-full bg-[#000000] py-12 px-2">
       <ScrollView
         showsVerticalScrollIndicator={false}
         showsHorizontalScrollIndicator={false}
+        className="flex flex-col "
       >
         <Stories />
         <ImaginationsList />
