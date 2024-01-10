@@ -9,11 +9,14 @@ import CameraNoPermission from "./CameraNoPermission";
 
 interface ICamera {
   cameraRef: LegacyRef<VisionCamera>;
+  flash: "on" | "off";
+  cameraPosition: "back" | "front";
 }
-const Camera: FC<ICamera> = ({ cameraRef }) => {
+
+const Camera: FC<ICamera> = ({ cameraRef, flash, cameraPosition }) => {
   const { hasPermission, requestPermission } = useCameraPermission();
   const [c, setC] = useState("#fff");
-  const device = useCameraDevice("back");
+  const device = useCameraDevice(cameraPosition);
 
   const requestCameraPermission = () => {
     if (!hasPermission) {
@@ -58,6 +61,8 @@ const Camera: FC<ICamera> = ({ cameraRef }) => {
           photo={true}
           isActive={true}
           onInitialized={() => setC("#ffff")}
+          torch={flash}
+
           //* Camera is not getting rendered on initialization,
           //* onInitialized function triggers rerender.
         />

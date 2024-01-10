@@ -6,13 +6,24 @@ import CameraCircle from "../../components/CameraCircle/CameraCircle";
 
 interface ITakePhotoTools {
   onTakePhoto: () => void;
+  toggleFlash: () => void;
+  toggleCameraPosition: () => void;
 }
-const TakePhotoTools: FC<ITakePhotoTools> = ({ onTakePhoto }) => {
+const TakePhotoTools: FC<ITakePhotoTools> = ({
+  onTakePhoto,
+  toggleFlash,
+  toggleCameraPosition,
+}) => {
   return (
     <View className="w-full flex flex-row items-center justify-around">
-      <Flash name="flash" size={35} color="white" />
+      <Flash name="flash" size={35} color="white" onPress={toggleFlash} />
       <CameraCircle onClick={onTakePhoto} size={90} />
-      <ToggleCamera name="sync-alt" size={35} color="white" />
+      <ToggleCamera
+        name="sync-alt"
+        size={35}
+        color="white"
+        onPress={toggleCameraPosition}
+      />
     </View>
   );
 };
