@@ -17,9 +17,7 @@ const Imagination: FC<IImagination> = ({
   artistName,
 }) => {
   return (
-    <View
-      className={`w-full h-[60vh] mt-[20px] bg-[#e7e4e464] p-4 rounded-[30px]`}
-    >
+    <View className={`w-full h-[60vh] mt-[20px]`}>
       <ImageBackground
         source={{ uri: imageURL }}
         resizeMode="cover"

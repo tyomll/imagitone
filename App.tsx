@@ -1,5 +1,6 @@
 import Navigation from "./src/navigation/Navigation";
 import { useFonts } from "expo-font";
+import PhotoCaptureScreen from "./src/screens/PhotoCaptureScreen/PhotoCaptureScreen";
 
 export default function App() {
   const [fontsLoaded] = useFonts({

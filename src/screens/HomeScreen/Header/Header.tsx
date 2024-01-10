@@ -1,7 +1,7 @@
 import { View, Text } from "react-native";
 import React from "react";
 import Icon from "react-native-vector-icons/FontAwesome5";
-import UserAvatar from "../UserAvatar/UserAvatar";
+import UserAvatar from "../../../components/UserAvatar/UserAvatar";
 
 const Header = () => {
   return (
