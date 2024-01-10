@@ -1,4 +1,4 @@
-import { View, Text, TouchableOpacity } from "react-native";
+import { Text, TouchableOpacity } from "react-native";
 import Publish from "react-native-vector-icons/MaterialIcons";
 
 const PublishPhoto = () => {
@@ -8,7 +8,7 @@ const PublishPhoto = () => {
   return (
     <TouchableOpacity
       className="flex flex-row items-center"
-      style={{ gap: 5 }}
+      style={{ gap: 10 }}
       onPress={onPublish}
     >
       <Text className="text-white text-[30px] font-[Montserrat-Bold] tracking-tighter">
