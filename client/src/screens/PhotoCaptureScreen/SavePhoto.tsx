@@ -2,14 +2,18 @@ import { TouchableOpacity, View } from "react-native";
 import Check from "react-native-vector-icons/Octicons";
 import Back from "react-native-vector-icons/MaterialIcons";
 import { FC } from "react";
-import { navigate } from "../../navigation/navigate";
+import { ParamListBase, useNavigation } from "@react-navigation/native";
+import { NativeStackNavigationProp } from "@react-navigation/native-stack";
 
 interface ISavePhoto {
+  photoPath: string;
   onDiscardPhoto: () => void;
 }
-const SavePhoto: FC<ISavePhoto> = ({ onDiscardPhoto }) => {
+const SavePhoto: FC<ISavePhoto> = ({ photoPath, onDiscardPhoto }) => {
+  const navigation = useNavigation<NativeStackNavigationProp<ParamListBase>>();
+
   const onSave = () => {
-    navigate("SuggestionsScreen");
+    navigation.navigate("SuggestionsScreen", { photoPath });
   };
   const onBack = () => {
     onDiscardPhoto();

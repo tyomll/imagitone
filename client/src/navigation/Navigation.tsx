@@ -1,14 +1,15 @@
 import React from "react";
 import { NavigationContainer } from "@react-navigation/native";
 import HomeScreen from "../screens/HomeScreen/HomeScreen";
+import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import PhotoCaptureScreen from "../screens/PhotoCaptureScreen/PhotoCaptureScreen";
-import { Stack } from "./stack";
-import { navigationRef } from "./navigate";
 import SuggestionsScreen from "../screens/SuggestionsScreen/SuggestionsScreen";
+
+const Stack = createNativeStackNavigator();
 
 const Navigation = () => {
   return (
-    <NavigationContainer ref={navigationRef}>
+    <NavigationContainer>
       <Stack.Navigator>
         <Stack.Screen
           name="Home"

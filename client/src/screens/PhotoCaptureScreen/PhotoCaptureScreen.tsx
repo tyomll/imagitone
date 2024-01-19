@@ -66,7 +66,10 @@ const PhotoCaptureScreen = () => {
         )}
       </View>
       {photoPath ? (
-        <SavePhoto onDiscardPhoto={() => setPhotoPath("")} />
+        <SavePhoto
+          photoPath={photoPath}
+          onDiscardPhoto={() => setPhotoPath("")}
+        />
       ) : (
         <TakePhotoTools
           flash={flash}
