@@ -5,7 +5,7 @@ import Camera from "../../components/Camera/Camera";
 import { takePhoto } from "../../utils/takePhoto";
 import { Camera as VisionCamera } from "react-native-vision-camera";
 import TakePhotoTools from "./TakePhotoTools";
-import PublishPhoto from "./PublishPhoto";
+import SavePhoto from "./SavePhoto";
 import { generateCaptureScreenTitle } from "../../utils/generateCaptureScreenTitle";
 
 const PhotoCaptureScreen = () => {
@@ -41,13 +41,14 @@ const PhotoCaptureScreen = () => {
   useEffect(() => {
     setTitle(generateCaptureScreenTitle());
   }, []);
+
   return (
     <SafeAreaView
       className="flex flex-col items-center w-full h-full bg-[#000000] py-12 px-2"
       style={{ gap: 50 }}
     >
       <Text className="ml-[10px] text-2xl text-white font-[Montserrat-Bold]">
-        {title}
+        {photoPath ? "Save to get started" : title}
       </Text>
 
       <View className="w-full h-[60vh] bg-[#ffffff6f] rounded-xl overflow-hidden">
@@ -65,9 +66,10 @@ const PhotoCaptureScreen = () => {
         )}
       </View>
       {photoPath ? (
-        <PublishPhoto />
+        <SavePhoto onDiscardPhoto={() => setPhotoPath("")} />
       ) : (
         <TakePhotoTools
+          flash={flash}
           onTakePhoto={onTakePhoto}
           toggleFlash={toggleFlash}
           toggleCameraPosition={toggleCameraPosition}

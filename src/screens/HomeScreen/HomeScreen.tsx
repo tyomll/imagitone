@@ -3,11 +3,7 @@ import React from "react";
 import ImaginationsList from "../../components/ImaginationsList/ImaginationsList";
 import Stories from "../../components/Stories";
 import CameraCircle from "../../components/CameraCircle/CameraCircle";
-import {
-  CompositeScreenProps,
-  NavigationContainerProps,
-  NavigationProp,
-} from "@react-navigation/native";
+import { NavigationProp } from "@react-navigation/native";
 import Header from "./Header/Header";
 
 const HomeScreen: React.FC<{ navigation: NavigationProp<any> }> = ({
