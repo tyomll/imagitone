@@ -1,6 +1,5 @@
 import { HfInference } from "@huggingface/inference";
-import axios from "axios";
-import { getInfoFromSpotify } from "./getInfoFromSpotify";
+import axios, { AxiosResponse } from "axios";
 
 export async function generateSuggestions(
   inference: HfInference,
@@ -26,17 +25,14 @@ export async function generateSuggestions(
 
 async function makeApiRequest(prompt: string) {
   try {
-    const response = await axios.post(
+    const spotifySuggestions: AxiosResponse = await axios.post(
       "http://192.168.0.105:3001/generate-text",
       {
         prompt: prompt,
       }
     );
-    const suggestions = response.data.music_suggestions;
 
-    const spotify_suggestions = await getInfoFromSpotify(suggestions);
-
-    return spotify_suggestions;
+    return spotifySuggestions.data;
   } catch (error) {
     console.error("Error in makeApiRequest:", error);
     throw error;

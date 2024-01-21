@@ -12,11 +12,18 @@ const SuggestionsScreen = () => {
   const photoPath: string = "file://" + params.photoPath;
   const [suggestions, setSuggestions] = useState<ISuggestion[]>();
   const inference = new HfInference("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"); // TODO
+  const [isRedirected, setIsRedirected] = useState(false);
 
-  useEffect(() => {
-    generateSuggestions(inference, photoPath).then((suggestions) => {
+  const getSuggestions = async () => {
+    await generateSuggestions(inference, photoPath).then((suggestions) => {
       setSuggestions(suggestions);
     });
+  };
+  useEffect(() => {
+    if (!isRedirected) {
+      setIsRedirected(true);
+      getSuggestions();
+    }
   }, []);
 
   return (
@@ -24,7 +31,7 @@ const SuggestionsScreen = () => {
       {suggestions ? (
         <View className="flex flex-col items-center">
           <Text className="text-white text-2xl font-[Montserrat-Bold]">
-            Choose the vibe
+            Choose your vibe
           </Text>
           <SuggestionsList suggestions={suggestions} />
         </View>

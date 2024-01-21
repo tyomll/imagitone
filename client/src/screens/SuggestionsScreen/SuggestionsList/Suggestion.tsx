@@ -107,11 +107,11 @@ const Suggestion: FC<ISuggestion> = ({
           </TouchableOpacity>
 
           <View className="flex flex-row h-full items-center">
-            <View className="flex flex-col" style={{ gap: 5 }}>
-              <Text className="text-white font-[Montserrat-Bold]">
+            <View className="flex flex-col w-[75%]" style={{ gap: 5 }}>
+              <Text className="text-white font-[Montserrat-Bold] break-all">
                 {suggestion.title}
               </Text>
-              <Text className="text-[#e0dfdf64] font-[Montserrat-Medium]">
+              <Text className="text-[#e0dfdf64] font-[Montserrat-Medium] break-all">
                 {suggestion.artist}
               </Text>
             </View>
@@ -121,7 +121,6 @@ const Suggestion: FC<ISuggestion> = ({
           name="spotify"
           size={20}
           color="white"
-          style={{ marginTop: 5 }}
           onPress={onSpotifyClick}
         />
       </View>
