@@ -5,6 +5,7 @@ const cors = require("cors");
 const dotenv = require("dotenv");
 const axios = require("axios");
 const qs = require("qs");
+
 dotenv.config();
 
 app.use(cors());
@@ -34,29 +35,31 @@ const getInfoFromSpotify = async (suggestions) => {
       clientId + ":" + clientSecret
     ).toString("base64");
 
-    const accessTokenResponse = await axios({
-      method: "post",
-      url: "https://accounts.spotify.com/api/token",
-      headers: {
-        Authorization: "Basic " + encodedCredentials,
-        "content-type": "application/x-www-form-urlencoded",
-      },
-      data: qs.stringify({ grant_type: "client_credentials" }),
-    });
+    const accessTokenResponse = await axios.post(
+      "https://accounts.spotify.com/api/token",
+      qs.stringify({ grant_type: "client_credentials" }),
+      {
+        headers: {
+          Authorization: "Basic " + encodedCredentials,
+          "content-type": "application/x-www-form-urlencoded",
+        },
+      }
+    );
 
     const accessToken = accessTokenResponse.data.access_token;
 
     for (const suggestion of suggestions) {
       try {
         const query = `q=track:${suggestion.title} artist:${suggestion.artist}&limit=20&type=track`;
-        const searchResponse = await axios({
-          method: "get",
-          url: `https://api.spotify.com/v1/search?${query}`,
-          headers: {
-            Authorization: "Bearer " + accessToken,
-            "content-type": "application/json",
-          },
-        });
+        const searchResponse = await axios.get(
+          `https://api.spotify.com/v1/search?${query}`,
+          {
+            headers: {
+              Authorization: "Bearer " + accessToken,
+              "content-type": "application/json",
+            },
+          }
+        );
 
         setTimeout(() => {}, 300);
         if (searchResponse.data.tracks.items.length > 0) {
@@ -98,7 +101,6 @@ app.post("/generate-text", express.json(), async (req, res) => {
     res.send(JSON.stringify(spotifySuggestions));
   } catch (error) {
     console.error("Error generating text:", error);
-    res.status(500).json({ error: "Internal Server Error" });
   }
 });
 

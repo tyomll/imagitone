@@ -21,15 +21,7 @@ const Suggestion: FC<ISuggestion> = ({
   stopPreview,
 }) => {
   const [sound, setSound] = useState<Sound | null>(null);
-
-  useEffect(() => {
-    return () => {
-      if (sound) {
-        sound.release();
-        setSound(null);
-      }
-    };
-  }, [sound]);
+  const [coverPhoto, setCoverPhoto] = useState<string>(suggestion.cover_photo);
 
   const onSpotifyClick = () => {
     Linking.openURL(suggestion.spotify_url);
@@ -70,6 +62,15 @@ const Suggestion: FC<ISuggestion> = ({
   };
 
   useEffect(() => {
+    return () => {
+      if (sound) {
+        sound.release();
+        setSound(null);
+      }
+    };
+  }, [sound]);
+
+  useEffect(() => {
     if (isPlaying) {
       playAudio();
     } else {
@@ -94,7 +95,7 @@ const Suggestion: FC<ISuggestion> = ({
           >
             <Image
               className="w-[50px] h-[50px] rounded-md "
-              source={{ uri: suggestion.cover_photo }}
+              source={{ uri: coverPhoto }}
             />
             {suggestion.audio_preview_url && (
               <Play
