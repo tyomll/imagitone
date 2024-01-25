@@ -2,14 +2,18 @@ import { View, Text, Image, Linking, TouchableOpacity } from "react-native";
 import React, { FC, useState, useEffect } from "react";
 import { ISuggestion as SuggestionType } from "../../../types/common/Suggestion";
 import Spotify from "react-native-vector-icons/FontAwesome";
+import Check from "react-native-vector-icons/FontAwesome";
 import Play from "react-native-vector-icons/FontAwesome5";
 import Sound from "react-native-sound";
+import { useAppDispatch } from "../../../hooks/useRedux";
+import { setNewImagtione } from "../../../redux/newImagitone/slice";
 
 interface ISuggestion {
   suggestion: SuggestionType;
   isPlaying: boolean;
   playPreview: () => void;
   stopPreview: () => void;
+  photoURL: string;
 }
 
 Sound.setCategory("Playback");
@@ -19,9 +23,11 @@ const Suggestion: FC<ISuggestion> = ({
   isPlaying,
   playPreview,
   stopPreview,
+  photoURL,
 }) => {
   const [sound, setSound] = useState<Sound | null>(null);
   const [coverPhoto, setCoverPhoto] = useState<string>(suggestion.cover_photo);
+  const dispatch = useAppDispatch();
 
   const onSpotifyClick = () => {
     Linking.openURL(suggestion.spotify_url);
@@ -61,6 +67,10 @@ const Suggestion: FC<ISuggestion> = ({
     }
   };
 
+  const onSelectMusic = () => {
+    dispatch(setNewImagtione({ ...suggestion, photoURL }));
+  };
+
   useEffect(() => {
     return () => {
       if (sound) {
@@ -80,8 +90,11 @@ const Suggestion: FC<ISuggestion> = ({
 
   return (
     <View className="w-full flex flex-row bg-[#48484864] py-3 px-4 rounded-lg">
-      <View className="w-full flex flex-row justify-between items-start">
-        <View className="flex flex-row" style={{ gap: 15 }}>
+      <View
+        className="w-full flex flex-row justify-between items-start"
+        style={{ gap: 15 }}
+      >
+        <View className="flex flex-row" style={{ gap: 10 }}>
           <TouchableOpacity
             onPress={() => {
               if (isPlaying) {
@@ -107,8 +120,8 @@ const Suggestion: FC<ISuggestion> = ({
             )}
           </TouchableOpacity>
 
-          <View className="flex flex-row h-full items-center">
-            <View className="flex flex-col w-[75%]" style={{ gap: 5 }}>
+          <View className="flex flex-row h-full w-[70%] items-center">
+            <View className="flex flex-col " style={{ gap: 5 }}>
               <Text className="text-white font-[Montserrat-Bold] break-all">
                 {suggestion.title}
               </Text>
@@ -118,12 +131,18 @@ const Suggestion: FC<ISuggestion> = ({
             </View>
           </View>
         </View>
-        <Spotify
-          name="spotify"
-          size={20}
-          color="white"
-          onPress={onSpotifyClick}
-        />
+        <View
+          className="flex flex-col justify-center items-center"
+          style={{ gap: 7 }}
+        >
+          <Spotify
+            name="spotify"
+            size={20}
+            color="white"
+            onPress={onSpotifyClick}
+          />
+          <Check name="check" size={20} color="white" onPress={onSelectMusic} />
+        </View>
       </View>
     </View>
   );

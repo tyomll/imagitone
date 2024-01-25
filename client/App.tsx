@@ -1,6 +1,7 @@
 import Navigation from "./src/navigation/Navigation";
 import { useFonts } from "expo-font";
-import PhotoCaptureScreen from "./src/screens/PhotoCaptureScreen/PhotoCaptureScreen";
+import { Provider } from "react-redux";
+import { store } from "./src/redux/store";
 
 export default function App() {
   const [fontsLoaded] = useFonts({
@@ -17,5 +18,9 @@ export default function App() {
   if (!fontsLoaded) {
     return null;
   }
-  return <Navigation />;
+  return (
+    <Provider store={store}>
+      <Navigation />
+    </Provider>
+  );
 }

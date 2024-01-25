@@ -17,7 +17,9 @@ const generateMusicTags = async (prompt) => {
     const genAI = new GoogleGenerativeAI(process.env.GOOGLE_ACCESS_TOKEN);
 
     const model = genAI.getGenerativeModel({ model: "gemini-pro" });
-    const result = await model.generateContent(prompt);
+    const result = await model
+      .generateContent(prompt)
+      .catch((error) => console.log("generate Music tags - ", error));
     const response = result.response;
     const text = response.text();
     return text;
@@ -41,10 +43,11 @@ const getInfoFromSpotify = async (suggestions) => {
       {
         headers: {
           Authorization: "Basic " + encodedCredentials,
-          "content-type": "application/x-www-form-urlencoded",
+          "Content-Type": "application/x-www-form-urlencoded",
         },
       }
     );
+    console.log("ACCESS TOKEN - ", accessTokenResponse.data);
 
     const accessToken = accessTokenResponse.data.access_token;
 
@@ -56,7 +59,6 @@ const getInfoFromSpotify = async (suggestions) => {
           {
             headers: {
               Authorization: "Bearer " + accessToken,
-              "content-type": "application/json",
             },
           }
         );
@@ -93,6 +95,7 @@ app.post("/generate-text", express.json(), async (req, res) => {
     // TODO: Refactor code
     const { prompt } = req.body;
     const text = await generateMusicTags(prompt);
+    console.log(text);
     const r = text.replace("```json", "");
     const f = r.replace("```", "");
     const suggestions = JSON.parse(f).music_suggestions;

@@ -5,23 +5,27 @@ import Suggestion from "./Suggestion";
 
 interface ISuggestionsList {
   suggestions: ISuggestion[];
+  photoURL: string;
 }
 
-const SuggestionsList: FC<ISuggestionsList> = ({ suggestions }) => {
-  const [currentlyPlayingIndex, setCurrentlyPlayingIndex] = useState<number | null>(null);
+const SuggestionsList: FC<ISuggestionsList> = ({ suggestions, photoURL }) => {
+  const [currentlyPlayingIndex, setCurrentlyPlayingIndex] = useState<
+    number | null
+  >(null);
 
   const playPreview = (index: number) => {
     setCurrentlyPlayingIndex(index);
   };
 
   const stopPreview = () => {
-    setCurrentlyPlayingIndex(null)
-  }
-  
-
+    setCurrentlyPlayingIndex(null);
+  };
   return (
-    <View className="flex flex-col justify-center w-[90%] h-full" style={{ gap: 20 }}>
-      {suggestions.map((suggestion: ISuggestion, i: number) => {
+    <View
+      className="flex flex-col justify-center w-[90%] h-[92%]"
+      style={{ gap: 20 }}
+    >
+      {suggestions.slice(0, 5).map((suggestion: ISuggestion, i: number) => {
         return (
           <Suggestion
             key={suggestion.title + i}
@@ -29,6 +33,7 @@ const SuggestionsList: FC<ISuggestionsList> = ({ suggestions }) => {
             isPlaying={currentlyPlayingIndex === i}
             playPreview={() => playPreview(i)}
             stopPreview={stopPreview}
+            photoURL={photoURL}
           />
         );
       })}
