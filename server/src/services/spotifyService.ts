@@ -13,41 +13,45 @@ export const getInfoFromSpotify = async (suggestions: ISuggestion[]) => {
       clientId + ":" + clientSecret
     ).toString("base64");
 
-    const accessTokenResponse = await axios.post(
-      "https://accounts.spotify.com/api/token",
-      qs.stringify({ grant_type: "client_credentials" }),
-      {
-        headers: {
-          Authorization: "Basic " + encodedCredentials,
-          "Content-Type": "application/x-www-form-urlencoded",
-        },
-      }
-    );
-
-    const accessToken = accessTokenResponse.data.access_token;
-
     for (const suggestion of suggestions) {
       try {
-        const query = `q=track:${suggestion.title} artist:${suggestion.artist}&limit=20&type=track`;
-        const searchResponse = await axios.get(
-          `https://api.spotify.com/v1/search?${query}`,
+        const accessTokenResponse = await axios.post(
+          "https://accounts.spotify.com/api/token",
+          qs.stringify({ grant_type: "client_credentials" }),
           {
             headers: {
-              Authorization: "Bearer " + accessToken,
+              Authorization: "Basic " + encodedCredentials,
+              "Content-Type": "application/x-www-form-urlencoded",
             },
           }
         );
 
-        setTimeout(() => {}, 300);
-        if (searchResponse.data.tracks.items.length > 0) {
-          const track = searchResponse.data.tracks.items[0];
-          spotifySuggestions.push({
-            artist: suggestion.artist,
-            cover_photo: track.album.images[0].url,
-            spotify_url: track.external_urls.spotify,
-            title: suggestion.title,
-            audio_preview_url: track.preview_url ? track.preview_url : "",
-          });
+        const accessToken = accessTokenResponse.data.access_token;
+
+        if (accessToken) {
+          const query = `q=track:${suggestion.title} artist:${suggestion.artist}&limit=20&type=track`;
+          const searchResponse = await axios.get(
+            `https://api.spotify.com/v1/search?${query}`,
+            {
+              headers: {
+                Authorization: "Bearer " + accessToken,
+              },
+            }
+          );
+
+          setTimeout(() => {}, 300);
+          if (searchResponse.data.tracks.items.length > 0) {
+            const track = searchResponse.data.tracks.items[0];
+            spotifySuggestions.push({
+              artist: suggestion.artist,
+              cover_photo: track.album.images[0].url,
+              spotify_url: track.external_urls.spotify,
+              title: suggestion.title,
+              audio_preview_url: track.preview_url ? track.preview_url : "",
+            });
+          }
+        } else {
+          console.error("ACCESS TOKEN IS NOT FOUND.");
         }
       } catch (error: any) {
         console.error("Error fetching suggestion:", suggestion, error);

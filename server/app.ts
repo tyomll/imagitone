@@ -15,7 +15,7 @@ app.get("/generate-text", (req, res) => {
   res.send("hello"); // TODO
 });
 
-app.post("/generate-text", generateText);
+app.post("/generate-suggestions", generateText);
 
 app.listen(port, () => {
   console.log(`Server is running on port ${port}`);
