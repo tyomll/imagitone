@@ -9,12 +9,13 @@ import Spinner from "react-native-loading-spinner-overlay";
 import { useAppSelector } from "../../hooks/useRedux";
 import Send from "react-native-vector-icons/MaterialIcons";
 import { IImagitone } from "../../types/common/Imagitone";
+import { HUGGING_FACE_SECRET } from "@env";
 
 const SuggestionsScreen = () => {
   const { params } = useRoute<any>();
   const photoPath: string = "file://" + params.photoPath;
   const [suggestions, setSuggestions] = useState<ISuggestion[]>();
-  const inference = new HfInference("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"); // TODO
+  const inference = new HfInference(HUGGING_FACE_SECRET); // TODO
   const [isRedirected, setIsRedirected] = useState(false);
   const isSongSelected: IImagitone | {} = useAppSelector(
     (state) => state.newImagitone.newImagitone

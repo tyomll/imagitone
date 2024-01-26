@@ -47,7 +47,6 @@ const getInfoFromSpotify = async (suggestions) => {
         },
       }
     );
-    console.log("ACCESS TOKEN - ", accessTokenResponse.data);
 
     const accessToken = accessTokenResponse.data.access_token;
 

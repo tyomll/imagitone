@@ -17,7 +17,6 @@ const newImagitone = createSlice({
       action: PayloadAction<IImagitone>
     ) {
       state.newImagitone = action.payload;
-      console.log(state.newImagitone);
     },
   },
 });
