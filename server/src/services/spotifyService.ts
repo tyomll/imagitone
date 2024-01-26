@@ -1,33 +1,9 @@
-const express = require("express");
-const { GoogleGenerativeAI } = require("@google/generative-ai");
-const app = express();
-const cors = require("cors");
-const dotenv = require("dotenv");
-const axios = require("axios");
-const qs = require("qs");
+import axios from "axios";
+import qs from "qs";
+import { ISuggestion } from "../types/Suggestion";
 
-dotenv.config();
-
-app.use(cors());
-
-const port = 3001;
-
-const generateMusicTags = async (prompt) => {
-  if (prompt) {
-    const genAI = new GoogleGenerativeAI(process.env.GOOGLE_ACCESS_TOKEN);
-
-    const model = genAI.getGenerativeModel({ model: "gemini-pro" });
-    const result = await model
-      .generateContent(prompt)
-      .catch((error) => console.log("generate Music tags - ", error));
-    const response = result.response;
-    const text = response.text();
-    return text;
-  }
-};
-
-const getInfoFromSpotify = async (suggestions) => {
-  let spotify_suggestions = [];
+export const getInfoFromSpotify = async (suggestions: ISuggestion[]) => {
+  let spotifySuggestions = [];
 
   try {
     const clientId = process.env.SPOTIFY_CLIENT_ID;
@@ -65,7 +41,7 @@ const getInfoFromSpotify = async (suggestions) => {
         setTimeout(() => {}, 300);
         if (searchResponse.data.tracks.items.length > 0) {
           const track = searchResponse.data.tracks.items[0];
-          spotify_suggestions.push({
+          spotifySuggestions.push({
             artist: suggestion.artist,
             cover_photo: track.album.images[0].url,
             spotify_url: track.external_urls.spotify,
@@ -73,7 +49,7 @@ const getInfoFromSpotify = async (suggestions) => {
             audio_preview_url: track.preview_url ? track.preview_url : "",
           });
         }
-      } catch (error) {
+      } catch (error: any) {
         console.error("Error fetching suggestion:", suggestion, error);
         console.error("Error details:", error.response?.data || error.message);
       }
@@ -82,30 +58,5 @@ const getInfoFromSpotify = async (suggestions) => {
     console.error("Error fetching Spotify data:", error);
   }
 
-  return spotify_suggestions.slice(0, 6);
+  return spotifySuggestions.slice(0, 6);
 };
-
-app.get("/generate-text", (req, res) => {
-  res.send("hello"); // TODO
-});
-
-app.post("/generate-text", express.json(), async (req, res) => {
-  try {
-    // TODO: Refactor code
-    const { prompt } = req.body;
-    const text = await generateMusicTags(prompt);
-    console.log(text);
-    const r = text.replace("```json", "");
-    const f = r.replace("```", "");
-    const suggestions = JSON.parse(f).music_suggestions;
-
-    const spotifySuggestions = await getInfoFromSpotify(suggestions);
-    res.send(JSON.stringify(spotifySuggestions));
-  } catch (error) {
-    console.error("Error generating text:", error);
-  }
-});
-
-app.listen(port, () => {
-  console.log(`Server is running on port ${port}`);
-});
