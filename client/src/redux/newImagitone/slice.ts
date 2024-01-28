@@ -2,10 +2,10 @@ import { PayloadAction, createSlice } from "@reduxjs/toolkit";
 import { IImagitone } from "../../types/common/Imagitone";
 
 export interface InitialStateType {
-  newImagitone: IImagitone | {};
+  newImagitone: IImagitone | undefined;
 }
 const initialState: InitialStateType = {
-  newImagitone: {},
+  newImagitone: undefined,
 };
 
 const newImagitone = createSlice({

@@ -26,7 +26,7 @@ export async function generateSuggestions(
 async function makeApiRequest(prompt: string) {
   try {
     const spotifySuggestions: AxiosResponse = await axios.post(
-      "http://192.168.0.105:3001/generate-text",
+      "http://192.168.0.103:3001/generate-suggestions",
       {
         prompt: prompt,
       }

@@ -8,9 +8,12 @@ export const generateText = async (req: Request, res: Response) => {
     const { prompt } = req.body;
     const text = await generateMusicTags(prompt);
     if (text) {
+      console.log(text);
       const cleanedText = text.replace("```json", "").replace("```", "");
-      const suggestions: ISuggestion[] =
-        JSON.parse(cleanedText).music_suggestions;
+      const suggestions: ISuggestion[] = JSON.parse(cleanedText)
+        .music_suggestions
+        ? JSON.parse(cleanedText).music_suggestions
+        : JSON.parse(cleanedText).music;
 
       const spotifySuggestions = await getInfoFromSpotify(suggestions);
       res.send(JSON.stringify(spotifySuggestions));

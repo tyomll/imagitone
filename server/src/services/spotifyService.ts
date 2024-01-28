@@ -39,7 +39,6 @@ export const getInfoFromSpotify = async (suggestions: ISuggestion[]) => {
             }
           );
 
-          setTimeout(() => {}, 300);
           if (searchResponse.data.tracks.items.length > 0) {
             const track = searchResponse.data.tracks.items[0];
             spotifySuggestions.push({
