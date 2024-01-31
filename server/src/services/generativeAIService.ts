@@ -7,13 +7,17 @@ export const generateMusicTags = async (prompt: string) => {
         "Google Access Token is undefined. Please set the environment variable."
       );
     } else {
-      const genAI = new GoogleGenerativeAI(process.env.GOOGLE_ACCESS_TOKEN);
-      const model = genAI.getGenerativeModel({ model: "gemini-pro" });
-
       try {
-        const result = await model.generateContent(prompt);
-        const response = result.response;
-        const text = response.text();
+        const genAI = new GoogleGenerativeAI(process.env.GOOGLE_ACCESS_TOKEN);
+        const model = genAI.getGenerativeModel({ model: "gemini-pro" });
+        const text = await model
+          .generateContent(prompt)
+          .then((result) => {
+            return result.response.text();
+          })
+          .catch((error) => {
+            console.error("Errror while generating content: ", error);
+          });
         return text;
       } catch (error) {
         console.error("generate Music tags - ", error);

@@ -1,11 +1,5 @@
 import { useRoute } from "@react-navigation/native";
-import {
-  Button,
-  SafeAreaView,
-  Text,
-  TouchableOpacity,
-  View,
-} from "react-native";
+import { SafeAreaView, Text, View } from "react-native";
 import SuggestionsList from "./SuggestionsList/SuggestionsList";
 import { useState, useEffect } from "react";
 import { generateSuggestions } from "../../services/suggestions";
@@ -21,7 +15,7 @@ const SuggestionsScreen = () => {
   const { params } = useRoute<any>();
   const photoPath: string = "file://" + params.photoPath;
   const [suggestions, setSuggestions] = useState<ISuggestion[]>();
-  const inference = new HfInference(HUGGING_FACE_SECRET); // TODO
+  const inference = new HfInference(HUGGING_FACE_SECRET);
   const [isRedirected, setIsRedirected] = useState(false);
   const isSongSelected: IImagitone | undefined = useAppSelector(
     (state) => state.newImagitone.newImagitone

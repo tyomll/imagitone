@@ -8,7 +8,6 @@ export const generateText = async (req: Request, res: Response) => {
     const { prompt } = req.body;
     const text = await generateMusicTags(prompt);
     if (text) {
-      console.log(text);
       const cleanedText = text.replace("```json", "").replace("```", "");
       const suggestions: ISuggestion[] = JSON.parse(cleanedText)
         .music_suggestions
@@ -22,6 +21,6 @@ export const generateText = async (req: Request, res: Response) => {
     }
   } catch (error) {
     console.error("Error generating text:", error);
-    res.status(500).send("Internal Server Error");
+    res.status(500).send("Error while generating text.");
   }
 };

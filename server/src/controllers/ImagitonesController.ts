@@ -1,10 +1,21 @@
 import express from "express";
 import Imagitone from "../models/Imagitone";
+import { getDownloadURL, ref, uploadString } from "firebase/storage";
+import { storage } from "../config/firebase.config";
+import { v4 as uuidv4 } from "uuid";
 
 const router = express.Router();
 
 router.post("/", async (req, res) => {
-  const newImagitone = new Imagitone(req.body);
+  const imagitone = new Imagitone(req.body);
+  const imageURL = imagitone.photoURL;
+  const storageRef = ref(storage, `images/${uuidv4()}`);
+
+  const snapshot = await uploadString(storageRef, imageURL, "data_url");
+  const downloadURL = await getDownloadURL(snapshot.ref);
+
+  let newImagitone = imagitone;
+  newImagitone.photoURL = downloadURL;
 
   try {
     await newImagitone.save();
