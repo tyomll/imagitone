@@ -12,6 +12,7 @@ const AuthScreen = () => {
       setFormType("login");
     }
   };
+
   return (
     <View
       className="flex flex-col justify-center items-start w-full h-full bg-[#000000] py-12 px-5"

@@ -1,5 +1,14 @@
+import AsyncStorage from "@react-native-async-storage/async-storage";
 import axios from "axios";
 
+export const isAuthenticated = async () => {
+  try {
+    const token = await AsyncStorage.getItem("sessionToken");
+    return token;
+  } catch (error) {
+    console.log("Error while getting token from async storage: ", error);
+  }
+};
 export const register = async (
   username: string,
   email: string,
@@ -11,7 +20,7 @@ export const register = async (
       email,
       password,
     })
-    .then(() => console.log("Logged in successfully."))
+    .then(() => console.log("Registered successfully."))
     .catch((error) => error.response.data);
 
   return error;
@@ -23,7 +32,13 @@ export const login = async (email: string, password: string) => {
       email,
       password,
     })
-    .then(() => console.log("Logged in successfully."))
+    .then((response) => {
+      AsyncStorage.setItem(
+        "sessionToken",
+        response.data.authentication.sessionToken
+      );
+      console.log("Logged in successfully.");
+    })
     .catch((error) => error.response.data);
 
   return error;
