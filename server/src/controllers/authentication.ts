@@ -7,7 +7,7 @@ export const login = async (req: express.Request, res: express.Response) => {
     const { email, password } = req.body;
 
     if (!email || !password) {
-      return res.sendStatus(400);
+      return res.status(400).send("Invalid email or password.");
     }
 
     const user = await getUserByEmail(email).select(
@@ -15,7 +15,7 @@ export const login = async (req: express.Request, res: express.Response) => {
     );
 
     if (!user || !user.authentication) {
-      return res.sendStatus(400);
+      return res.status(400).send("User is not found.");
     }
 
     const expectedHash = authentication(
@@ -24,7 +24,7 @@ export const login = async (req: express.Request, res: express.Response) => {
     );
 
     if (user.authentication.password !== expectedHash) {
-      return res.sendStatus(403);
+      return res.status(403).send("Invalid email or password.");
     }
 
     const salt = random();
@@ -52,13 +52,13 @@ export const register = async (req: express.Request, res: express.Response) => {
     const { email, password, username } = req.body;
 
     if (!email || !password || !username) {
-      return res.sendStatus(400);
+      return res.status(400).send("Not valid email, username or password.");
     }
 
     const existingUser = await getUserByEmail(email);
 
     if (existingUser) {
-      return res.sendStatus(400);
+      return res.status(400).send("Account with this email already exists.");
     }
 
     const salt = random();
