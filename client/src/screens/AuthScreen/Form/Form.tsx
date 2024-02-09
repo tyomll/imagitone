@@ -2,7 +2,8 @@ import { View, TextInput, TouchableOpacity, Text } from "react-native";
 import React, { FC, useState } from "react";
 import { login, register } from "../../../auth/Authentication";
 import { validateAuthDetails } from "../../../utils/validateAuthDetails";
-import AsyncStorage from "@react-native-async-storage/async-storage";
+import { useAppDispatch } from "../../../hooks/useRedux";
+import { setIsAuth } from "../../../redux/auth/slice";
 
 interface IForm {
   type: "login" | "register";
@@ -14,6 +15,7 @@ const Form: FC<IForm> = ({ type }) => {
     password: "",
   });
   const [errorMessage, setErrorMessage] = useState("");
+  const dispatch = useAppDispatch();
 
   const validateForm = () => {
     const validationError = validateAuthDetails(
@@ -41,6 +43,9 @@ const Form: FC<IForm> = ({ type }) => {
           authData.email,
           authData.password
         );
+      }
+      if (!error) {
+        dispatch(setIsAuth(true));
       }
       setErrorMessage(error);
     }

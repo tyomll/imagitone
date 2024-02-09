@@ -1,5 +1,9 @@
 import express from "express";
-import { createUser, getUserByEmail } from "../models/Users";
+import {
+  createUser,
+  getUserByEmail,
+  getUserBySessionToken,
+} from "../models/Users";
 import { authentication, random } from "../helpers";
 
 export const login = async (req: express.Request, res: express.Response) => {
@@ -76,4 +80,18 @@ export const register = async (req: express.Request, res: express.Response) => {
     console.log(error);
     return res.sendStatus(400);
   }
+};
+
+export const isAuthenticated = async (
+  req: express.Request,
+  res: express.Response
+) => {
+  const { token } = req.body;
+  const user = await getUserBySessionToken(token);
+
+  if (!user) {
+    return res.status(200).send(false);
+  }
+
+  return res.status(200).send(true);
 };

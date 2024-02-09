@@ -4,7 +4,16 @@ import axios from "axios";
 export const isAuthenticated = async () => {
   try {
     const token = await AsyncStorage.getItem("sessionToken");
-    return token;
+    try {
+      const isTokenValid = await axios.post(
+        "http://192.168.0.103:3001/auth/isAuthenticated",
+        { token }
+      );
+
+      return isTokenValid.data;
+    } catch (error) {
+      console.log("Error in token validation process.", error);
+    }
   } catch (error) {
     console.log("Error while getting token from async storage: ", error);
   }
@@ -20,7 +29,9 @@ export const register = async (
       email,
       password,
     })
-    .then(() => console.log("Registered successfully."))
+    .then(async () => {
+      await login(email, password);
+    })
     .catch((error) => error.response.data);
 
   return error;
@@ -32,12 +43,12 @@ export const login = async (email: string, password: string) => {
       email,
       password,
     })
-    .then((response) => {
+    .then(async (response) => {
       AsyncStorage.setItem(
         "sessionToken",
         response.data.authentication.sessionToken
       );
-      console.log("Logged in successfully.");
+      await isAuthenticated();
     })
     .catch((error) => error.response.data);
 

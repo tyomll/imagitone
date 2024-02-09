@@ -32,6 +32,7 @@ const SuggestionsScreen = () => {
       getSuggestions();
     }
   }, []);
+
   return (
     <SafeAreaView className="flex flex-col items-center w-full h-full bg-[#000000] py-12 px-2">
       {suggestions ? (

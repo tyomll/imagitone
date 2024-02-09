@@ -1,6 +1,12 @@
 import mongoose from "mongoose";
 
 const UserSchema = new mongoose.Schema({
+  avatar: {
+    type: String,
+    required: true,
+    default:
+      "https://www.shareicon.net/data/512x512/2016/05/24/770117_people_512x512.png", // TODO: Add custom default avatar.
+  },
   username: { type: String, required: true },
   email: { type: String, required: true },
   authentication: {
