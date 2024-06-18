@@ -1,9 +1,9 @@
 import { View, TextInput, TouchableOpacity, Text } from "react-native";
 import React, { FC, useState } from "react";
-import { login, register } from "../../../auth/Authentication";
 import { validateAuthDetails } from "../../../utils/validateAuthDetails";
 import { useAppDispatch } from "../../../hooks/useRedux";
-import { setIsAuth } from "../../../redux/auth/slice";
+import { setIsAuth } from "../../../redux/users/slice";
+import { login, register } from "../../../redux/users/slice";
 
 interface IForm {
   type: "login" | "register";
@@ -36,12 +36,19 @@ const Form: FC<IForm> = ({ type }) => {
     if (validateForm()) {
       let error = "";
       if (type === "login") {
-        error = await login(authData.email, authData.password);
+        dispatch(
+          login({
+            email: authData.email,
+            password: authData.password,
+          })
+        );
       } else {
-        error = await register(
-          authData.username,
-          authData.email,
-          authData.password
+        dispatch(
+          register({
+            username: authData.username,
+            email: authData.email,
+            password: authData.password,
+          })
         );
       }
       if (!error) {
@@ -52,7 +59,7 @@ const Form: FC<IForm> = ({ type }) => {
   };
   return (
     <View
-      className="flex justify-center items-center w-full "
+      className="flex justify-center items-center w-full"
       style={{ gap: 40 }}
     >
       <View className="w-full" style={{ gap: 20 }}>

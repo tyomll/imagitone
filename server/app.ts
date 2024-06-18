@@ -6,7 +6,6 @@ import cookieParser from "cookie-parser";
 import { generateText } from "./src/controllers/textController";
 import connectDB from "./src/config/db";
 import router from "./src/router";
-import ImagitonesController from "./src/controllers/imagitonesController";
 
 dotenv.config();
 
@@ -21,7 +20,6 @@ app.use(cookieParser());
 app.use(express.json());
 
 app.use("/", router());
-app.use("/api/imagitones", ImagitonesController);
 
 app.get("/generate-text", (req, res) => {
   res.send("hello"); // TODO

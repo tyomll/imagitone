@@ -1,23 +1,24 @@
 import { Text, TouchableOpacity } from "react-native";
 import React, { useState } from "react";
-import { useAppSelector } from "../../../hooks/useRedux";
-import { postImagitone } from "../../../services/imagitones";
+import { useAppDispatch, useAppSelector } from "../../../hooks/useRedux";
 import Send from "react-native-vector-icons/MaterialIcons";
 import { ParamListBase, useNavigation } from "@react-navigation/native";
 import { NativeStackNavigationProp } from "@react-navigation/native-stack";
 import Spinner from "react-native-loading-spinner-overlay";
+import { postImagitone } from "../../../redux/imagitones/slice";
 
 const PostButton = () => {
   const [posted, setPosted] = useState(false);
-  const newImagitone = useAppSelector(
-    (state) => state.newImagitone.newImagitone
-  );
+  const newImagitone = useAppSelector((state) => state.imagitones.newImagitone);
   const navigation = useNavigation<NativeStackNavigationProp<ParamListBase>>();
+  const dispatch = useAppDispatch();
 
   const onPost = async () => {
-    setPosted(true);
-    await postImagitone(newImagitone);
-    navigation.navigate("Home");
+    if (newImagitone) {
+      setPosted(true);
+      dispatch(postImagitone(newImagitone));
+      navigation.navigate("Home");
+    }
   };
 
   if (posted) {

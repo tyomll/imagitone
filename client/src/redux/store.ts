@@ -1,9 +1,9 @@
 import { configureStore } from "@reduxjs/toolkit";
-import newImagitone from "./newImagitone/slice";
-import auth from "./auth/slice";
+import imagitones from "./imagitones/slice";
+import users from "./users/slice";
 
 export const store = configureStore({
-  reducer: { newImagitone, auth },
+  reducer: { imagitones, users },
 });
 
 export type RootState = ReturnType<typeof store.getState>;

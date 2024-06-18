@@ -7,24 +7,12 @@ import AuthScreen from "../screens/AuthScreen/AuthScreen";
 import HomeScreen from "../screens/HomeScreen/HomeScreen";
 import PhotoCaptureScreen from "../screens/PhotoCaptureScreen/PhotoCaptureScreen";
 import SuggestionsScreen from "../screens/SuggestionsScreen/SuggestionsScreen";
-import { isAuthenticated } from "./Authentication";
+import { validateTokenApi } from "../api/index";
+import { useAppSelector } from "../hooks/useRedux";
 
 const AuthWrapper = () => {
-  const [isSignedIn, setIsSignedIn] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
-
-  useEffect(() => {
-    (async () => {
-      setIsLoading(true);
-      const isAuth = await isAuthenticated();
-      if (isAuth) {
-        setIsSignedIn(true);
-      } else {
-        setIsSignedIn(false);
-      }
-      setIsLoading(false);
-    })();
-  }, [AsyncStorage, isSignedIn]);
+  const isAuth = useAppSelector((state) => state.users.isAuth);
 
   if (isLoading) {
     return <Spinner visible={true} />;
@@ -32,7 +20,7 @@ const AuthWrapper = () => {
 
   return (
     <>
-      {!isSignedIn ? (
+      {!isAuth ? (
         <Stack.Screen
           name="Auth"
           component={AuthScreen}

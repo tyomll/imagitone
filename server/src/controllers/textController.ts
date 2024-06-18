@@ -1,5 +1,5 @@
 import { Request, Response } from "express";
-import { ISuggestion } from "../types/Suggestion";
+import { Suggestion } from "../types/Suggestion";
 import { generateMusicTags } from "../services/generativeAIService";
 import { getInfoFromSpotify } from "../services/spotifyService";
 
@@ -9,7 +9,7 @@ export const generateText = async (req: Request, res: Response) => {
     const text = await generateMusicTags(prompt);
     if (text) {
       const cleanedText = text.replace("```json", "").replace("```", "");
-      const suggestions: ISuggestion[] = JSON.parse(cleanedText)
+      const suggestions: Suggestion[] = JSON.parse(cleanedText)
         .music_suggestions
         ? JSON.parse(cleanedText).music_suggestions
         : JSON.parse(cleanedText).music;

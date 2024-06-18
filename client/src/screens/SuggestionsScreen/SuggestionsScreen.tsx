@@ -2,28 +2,32 @@ import { useRoute } from "@react-navigation/native";
 import { SafeAreaView, Text, View } from "react-native";
 import SuggestionsList from "./SuggestionsList/SuggestionsList";
 import { useState, useEffect } from "react";
-import { generateSuggestions } from "../../services/suggestions";
-import { ISuggestion } from "../../types/common/Suggestion";
+import { Suggestion } from "../../types/common/Suggestion";
 import { HfInference } from "@huggingface/inference";
 import Spinner from "react-native-loading-spinner-overlay";
-import { useAppSelector } from "../../hooks/useRedux";
-import { IImagitone } from "../../types/common/Imagitone";
+import { useAppDispatch, useAppSelector } from "../../hooks/useRedux";
+import { Imagitone } from "../../types/common/Imagitone";
 import { HUGGING_FACE_SECRET } from "@env";
 import PostButton from "./PostButton/PostButton";
+import { generateSuggestions } from "../../redux/imagitones/slice";
 
 const SuggestionsScreen = () => {
   const { params } = useRoute<any>();
+  const dispatch = useAppDispatch();
   const photoPath: string = "file://" + params.photoPath;
-  const [suggestions, setSuggestions] = useState<ISuggestion[]>();
+  const [suggestions, setSuggestions] = useState<Suggestion[]>();
   const inference = new HfInference(HUGGING_FACE_SECRET);
   const [isRedirected, setIsRedirected] = useState(false);
-  const isSongSelected: IImagitone | undefined = useAppSelector(
-    (state) => state.newImagitone.newImagitone
+  const isSongSelected: Imagitone | null = useAppSelector(
+    (state) => state.imagitones.newImagitone
   );
   const getSuggestions = async () => {
-    await generateSuggestions(inference, photoPath).then((suggestions) => {
-      setSuggestions(suggestions);
-    });
+    const response = await dispatch(
+      generateSuggestions({ inference, photoPath })
+    );
+    if (generateSuggestions.fulfilled.match(response)) {
+      setSuggestions(response.payload);
+    }
   };
 
   useEffect(() => {

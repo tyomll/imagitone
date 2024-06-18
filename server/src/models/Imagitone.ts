@@ -1,14 +1,5 @@
 import mongoose from "mongoose";
 
-interface ImagitoneDocument extends mongoose.Document {
-  artist: string;
-  cover_photo: string;
-  spotify_url: string;
-  title: string;
-  audio_preview_url: string;
-  photoURL: string;
-}
-
 const ImagitoneSchema = new mongoose.Schema({
   author: {
     id: { type: String, required: true },
@@ -26,5 +17,10 @@ const ImagitoneSchema = new mongoose.Schema({
   photoURL: { type: String, required: true },
 });
 
-export default mongoose.models.Imagitone ||
-  mongoose.model<ImagitoneDocument>("Imagitone", ImagitoneSchema, "Imagitones");
+export const ImagitioneModel = mongoose.model(
+  "Imagitone",
+  ImagitoneSchema,
+  "Imagitones"
+);
+
+export const getAllImagitones = () => ImagitioneModel.find();

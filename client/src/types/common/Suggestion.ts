@@ -1,4 +1,4 @@
-export interface ISuggestion {
+export interface Suggestion {
   artist: string;
   cover_photo: string;
   spotify_url: string;

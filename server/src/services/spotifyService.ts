@@ -1,8 +1,8 @@
 import axios from "axios";
 import qs from "qs";
-import { ISuggestion } from "../types/Suggestion";
+import { Suggestion } from "../types/Suggestion";
 
-export const getInfoFromSpotify = async (suggestions: ISuggestion[]) => {
+export const getInfoFromSpotify = async (suggestions: Suggestion[]) => {
   let spotifySuggestions = [];
 
   const clientId = process.env.SPOTIFY_CLIENT_ID;

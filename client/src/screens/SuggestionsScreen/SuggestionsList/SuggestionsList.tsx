@@ -1,14 +1,14 @@
 import { View } from "react-native";
 import React, { FC, useState } from "react";
-import { ISuggestion } from "../../../types/common/Suggestion";
+import { Suggestion as SuggestionType } from "../../../types/common/Suggestion";
 import Suggestion from "./Suggestion";
 
-interface ISuggestionsList {
-  suggestions: ISuggestion[];
+interface SuggestionsList {
+  suggestions: SuggestionType[];
   photoURL: string;
 }
 
-const SuggestionsList: FC<ISuggestionsList> = ({ suggestions, photoURL }) => {
+const SuggestionsList: FC<SuggestionsList> = ({ suggestions, photoURL }) => {
   const [currentlyPlayingIndex, setCurrentlyPlayingIndex] = useState<
     number | null
   >(null);
@@ -25,7 +25,7 @@ const SuggestionsList: FC<ISuggestionsList> = ({ suggestions, photoURL }) => {
       className="flex flex-col justify-center w-[90%] h-[92%]"
       style={{ gap: 20 }}
     >
-      {suggestions.slice(0, 5).map((suggestion: ISuggestion, i: number) => {
+      {suggestions.slice(0, 5).map((suggestion: SuggestionType, i: number) => {
         return (
           <Suggestion
             key={suggestion.title + i}

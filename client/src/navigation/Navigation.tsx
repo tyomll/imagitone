@@ -1,45 +1,38 @@
-import { useEffect, useState } from "react";
-import { NavigationContainer } from "@react-navigation/native";
+import { useEffect } from "react";
+import {
+  NavigationContainer,
+  ParamListBase,
+  useNavigation,
+} from "@react-navigation/native";
 import HomeScreen from "../screens/HomeScreen/HomeScreen";
-import { createNativeStackNavigator } from "@react-navigation/native-stack";
+import {
+  NativeStackNavigationProp,
+  createNativeStackNavigator,
+} from "@react-navigation/native-stack";
 import PhotoCaptureScreen from "../screens/PhotoCaptureScreen/PhotoCaptureScreen";
 import SuggestionsScreen from "../screens/SuggestionsScreen/SuggestionsScreen";
 import AuthScreen from "../screens/AuthScreen/AuthScreen";
+import { useAppDispatch, useAppSelector } from "../hooks/useRedux";
 import AsyncStorage from "@react-native-async-storage/async-storage";
-import { isAuthenticated } from "../auth/Authentication";
-import Spinner from "react-native-loading-spinner-overlay";
-import { useAppSelector } from "../hooks/useRedux";
+import { getMe, getSessionToken } from "../redux/users/slice";
 
 const Stack = createNativeStackNavigator();
 
 const Navigation = () => {
-  const [isSignedIn, setIsSignedIn] = useState(false);
-  const [isLoading, setIsLoading] = useState(true);
-  const isAuth = useAppSelector((state) => state.auth.isAuth);
+  const dispatch = useAppDispatch();
+  const isAuth = useAppSelector((state) => state.users.isAuth);
+  const users = useAppSelector((state) => state.users);
+  const sessionToken = users.sessionToken;
 
   useEffect(() => {
-    const checkAuthentication = async () => {
-      try {
-        const isAuth = await isAuthenticated();
-        setIsSignedIn(isAuth);
-      } catch (error) {
-        console.error("Error checking authentication:", error);
-      } finally {
-        setIsLoading(false);
-      }
-    };
-
-    checkAuthentication();
-  }, [isAuth]);
-
-  if (isLoading) {
-    return <Spinner visible={true} />;
-  }
+    dispatch(getSessionToken());
+    dispatch(getMe(sessionToken));
+  }, [AsyncStorage]);
 
   return (
     <NavigationContainer>
       <Stack.Navigator>
-        {isSignedIn ? (
+        {isAuth ? (
           <>
             <Stack.Screen
               name="Home"

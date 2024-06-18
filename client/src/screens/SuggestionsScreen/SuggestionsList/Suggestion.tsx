@@ -1,14 +1,15 @@
 import { View, Text, Image, Linking, TouchableOpacity } from "react-native";
 import React, { FC, useState, useEffect } from "react";
-import { ISuggestion as SuggestionType } from "../../../types/common/Suggestion";
+import { Suggestion as SuggestionType } from "../../../types/common/Suggestion";
 import Spotify from "react-native-vector-icons/FontAwesome";
 import Check from "react-native-vector-icons/FontAwesome";
 import Play from "react-native-vector-icons/FontAwesome5";
 import Sound from "react-native-sound";
 import { useAppDispatch } from "../../../hooks/useRedux";
-import { setNewImagtione } from "../../../redux/newImagitone/slice";
+import { setNewImagtione } from "../../../redux/imagitones/slice";
+import { Imagitone } from "../../../types/common/Imagitone";
 
-interface ISuggestion {
+interface Suggestion {
   suggestion: SuggestionType;
   isPlaying: boolean;
   playPreview: () => void;
@@ -18,7 +19,7 @@ interface ISuggestion {
 
 Sound.setCategory("Playback");
 
-const Suggestion: FC<ISuggestion> = ({
+const Suggestion: FC<Suggestion> = ({
   suggestion,
   isPlaying,
   playPreview,
@@ -68,7 +69,7 @@ const Suggestion: FC<ISuggestion> = ({
   };
 
   const onSelectMusic = () => {
-    dispatch(setNewImagtione({ ...suggestion, photoURL }));
+    dispatch(setNewImagtione({ ...suggestion, photoURL } as Imagitone));
   };
 
   useEffect(() => {

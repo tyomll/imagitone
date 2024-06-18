@@ -1,34 +1,43 @@
-import { View, Text, ScrollView, FlatList } from "react-native";
-import React from "react";
+import { View } from "react-native";
+import React, { useEffect, useState } from "react";
 import Imagination from "./Imagination/Imagination";
-
-const imaginations = [
-  {
-    author: "Tyomll",
-    imageURL:
-      "https://media.cnn.com/api/v1/images/stellar/prod/190417163838-21-earth-beautiful-places-restricted.jpg?q=w_5000,h_2813,x_0,y_0,c_fill/h_618",
-    musicName: "Old town road",
-    artistName: "Lil nas X",
-  },
-  {
-    author: "Valodll",
-    imageURL:
-      "https://media.cnn.com/api/v1/images/stellar/prod/140630124917-12-canada-most-beautiful-places.jpg?q=w_2000,h_1363,x_0,y_0,c_fill/h_778",
-    musicName: "Old town road",
-    artistName: "Lil nas X",
-  },
-];
+import { useAppDispatch, useAppSelector } from "../../hooks/useRedux";
+import { getImagitones } from "../../redux/imagitones/slice";
 
 const ImaginationsList = () => {
+  const dispatch = useAppDispatch();
+  const imagitonesState = useAppSelector((state) => state.imagitones);
+  const imagitones = imagitonesState.imagitones;
+  const newImagitone = imagitonesState.newImagitone;
+  const [currentlyPlayingIndex, setCurrentlyPlayingIndex] = useState<
+    number | null
+  >(null);
+
+  const playPreview = (index: number) => {
+    setCurrentlyPlayingIndex(index);
+  };
+
+  const stopPreview = () => {
+    setCurrentlyPlayingIndex(null);
+  };
+
+  useEffect(() => {
+    dispatch(getImagitones());
+  }, [newImagitone]);
+
   return (
-    <View className="flex flex-col justify-center w-full ">
-      {imaginations.map((imagination, i) => (
+    <View className="flex flex-col justify-center w-full">
+      {imagitones.map((imagination, i) => (
         <Imagination
           key={i}
           author={imagination.author}
-          imageURL={imagination.imageURL}
-          musicName={imagination.musicName}
-          artistName={imagination.artistName}
+          photoURL={imagination.photoURL}
+          musicName={imagination.title}
+          artistName={imagination.artist}
+          audioPreviewUrl={imagination.audio_preview_url}
+          stopPreview={stopPreview}
+          playPreview={() => playPreview(i)}
+          isPlaying={currentlyPlayingIndex === i}
         />
       ))}
     </View>

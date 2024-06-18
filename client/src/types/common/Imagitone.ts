@@ -1,5 +1,7 @@
-import { ISuggestion } from "./Suggestion";
+import { Suggestion } from "./Suggestion";
+import { User } from "./User";
 
-export interface IImagitone extends ISuggestion {
+export interface Imagitone extends Suggestion {
+  author: User;
   photoURL: string;
 }

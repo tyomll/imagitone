@@ -11,9 +11,8 @@ import Stories from "../../components/Stories";
 import CameraCircle from "../../components/CameraCircle/CameraCircle";
 import { NavigationProp } from "@react-navigation/native";
 import Header from "./Header/Header";
-import AsyncStorage from "@react-native-async-storage/async-storage";
 import { useAppDispatch } from "../../hooks/useRedux";
-import { logout } from "../../redux/auth/slice";
+import { logout } from "../../redux/users/slice";
 
 const HomeScreen: React.FC<{ navigation: NavigationProp<any> }> = ({
   navigation,

@@ -4,16 +4,21 @@ import UserAvatar from "../../UserAvatar/UserAvatar";
 import { User } from "../../../types/common/User";
 
 interface IAuthor {
-  username: User | string;
+  author: User;
   date: string;
 }
-const Author: FC<IAuthor> = ({ username, date }) => {
+const Author: FC<IAuthor> = ({ author, date }) => {
   return (
     <View className="flex flex-row items-center">
-      <UserAvatar size={45} borderRadius="full" ring />
+      <UserAvatar
+        avatarUrl={author.avatar}
+        size={45}
+        borderRadius="full"
+        ring
+      />
       <View className="ml-[10px]">
         <Text className="text-[15px] text-white font-[Montserrat-SemiBold]">
-          {typeof username === "string" && username}
+          {author.username}
         </Text>
         <Text className="text-[12px] text-[#f8eee0ba] font-[Montserrat-Medium]">
           {date}

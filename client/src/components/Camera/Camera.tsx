@@ -58,8 +58,8 @@ const Camera: FC<ICamera> = ({ cameraRef, flash, cameraPosition }) => {
           }}
           device={device}
           ref={cameraRef}
-          photo={true}
-          isActive={true}
+          isActive
+          photo
           onInitialized={() => setC("#ffff")}
           torch={flash}
 

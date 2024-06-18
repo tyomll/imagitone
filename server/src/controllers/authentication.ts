@@ -5,6 +5,7 @@ import {
   getUserBySessionToken,
 } from "../models/Users";
 import { authentication, random } from "../helpers";
+import { assign } from "lodash";
 
 export const login = async (req: express.Request, res: express.Response) => {
   try {
@@ -37,10 +38,11 @@ export const login = async (req: express.Request, res: express.Response) => {
       user._id.toString()
     );
 
+    user.id = user._id.toString();
     await user.save();
 
     res.cookie("IMAGITONE-AUTH", user.authentication.sessionToken, {
-      domain: "192.168.0.103", // TODO
+      domain: process.env.BASE_URL,
       path: "/",
     });
 
@@ -54,7 +56,6 @@ export const login = async (req: express.Request, res: express.Response) => {
 export const register = async (req: express.Request, res: express.Response) => {
   try {
     const { email, password, username } = req.body;
-
     if (!email || !password || !username) {
       return res.status(400).send("Not valid email, username or password.");
     }
@@ -88,10 +89,19 @@ export const isAuthenticated = async (
 ) => {
   const { token } = req.body;
   const user = await getUserBySessionToken(token);
-
   if (!user) {
     return res.status(200).send(false);
   }
 
   return res.status(200).send(true);
+};
+
+export const getMe = async (req: express.Request, res: express.Response) => {
+  const { token } = req.body;
+  const user = await getUserBySessionToken(token);
+
+  return res
+    .status(200)
+    .json(assign({ id: user?._id.toString() }, user?.toObject()))
+    .end();
 };
