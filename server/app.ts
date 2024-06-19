@@ -10,6 +10,7 @@ import router from "./src/router";
 dotenv.config();
 
 const app = express();
+const port = process.env.PORT || 3000;
 
 connectDB();
 
@@ -24,8 +25,8 @@ app.get("/generate-text", (req, res) => {
   res.send("hello"); // TODO
 });
 
-app.post("/generate-suggestions", generateText);
+app.post("/generate-suggestions", generateText); // TODO: move to router folder
 
-app.listen(() => {
-  console.log(`Server is running on port`);
+app.listen(port, () => {
+  console.log(`Server is running on port ${port}`);
 });
