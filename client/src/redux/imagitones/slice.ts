@@ -22,7 +22,6 @@ export const generateSuggestions = createAsyncThunk(
   async (payload: { inference: HfInference; photoPath: string }) => {
     const { inference, photoPath } = payload;
     const suggestions = await generateSuggestionsApi(inference, photoPath);
-    console.log("suggestions :", suggestions);
 
     return suggestions;
   }

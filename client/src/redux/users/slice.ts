@@ -34,18 +34,15 @@ export const login = createAsyncThunk(
   "users/login",
   async (payload: { email: string; password: string }, { rejectWithValue }) => {
     const { email, password } = payload;
-    try {
-      const response = await loginApi(email, password);
-      const data = response.data;
-      return {
-        id: data.id,
-        email: data.email,
-        username: data.username,
-        sessionToken: data.authentication.sessionToken,
-      };
-    } catch (error) {
-      return rejectWithValue(error);
-    }
+
+    const response = await loginApi(email, password);
+    const data = response.data;
+    return {
+      id: data.id,
+      email: data.email,
+      username: data.username,
+      sessionToken: data.authentication.sessionToken,
+    };
   }
 );
 
